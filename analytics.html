@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Analytics Dashboard - Better Lifestyle Network">
+    <meta name="theme-color" content="#000000">
+    <title>Analytics - TV Network</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --apple-blue: #0071e3;
+            --success-green: #22c55e;
+            --warning-yellow: #f59e0b;
+            --danger-red: #ef4444;
+            --purple: #8b5cf6;
+            --spacing: 60px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(0, 0, 0, 0.72);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+            padding: 12px var(--spacing);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            text-decoration: none;
+            color: #fff;
+        }
+        
+        .tv-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tv-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 32px;
+            margin-left: 48px;
+        }
+        
+        .nav-item {
+            color: rgba(255, 255, 255, 0.92);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            border-bottom-color: #fff;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        /* Container */
+        .container {
+            padding: 40px var(--spacing);
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+        
+        /* Page Header */
+        .page-header {
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        
+        .page-title {
+            font-size: 48px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 12px;
+        }
+        
+        .page-subtitle {
+            font-size: 17px;
+            opacity: 0.7;
+        }
+        
+        .date-range {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .date-range:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .metric-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 28px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-start), var(--color-end));
+            opacity: 0.8;
+        }
+        
+        .metric-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+        
+        .metric-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .metric-label {
+            font-size: 15px;
+            opacity: 0.7;
+            font-weight: 500;
+        }
+        
+        .metric-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+        }
+        
+        .metric-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        .metric-value {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+        
+        .metric-change {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .metric-change.positive {
+            color: var(--success-green);
+        }
+        
+        .metric-change.negative {
+            color: var(--danger-red);
+        }
+        
+        /* Chart Container */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .chart-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+        }
+        
+        .chart-header {
+            margin-bottom: 24px;
+        }
+        
+        .chart-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .chart-subtitle {
+            font-size: 14px;
+            opacity: 0.6;
+        }
+        
+        .chart-placeholder {
+            height: 300px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+            opacity: 0.5;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Simple Bar Chart */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 12px;
+            height: 300px;
+            padding: 20px 0;
+        }
+        
+        .bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--apple-blue), rgba(0, 113, 227, 0.3));
+            border-radius: 8px 8px 0 0;
+            min-height: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .bar:hover {
+            opacity: 0.8;
+            transform: scaleY(1.05);
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -24px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            opacity: 0.6;
+            white-space: nowrap;
+        }
+        
+        /* Top Content Table */
+        .top-content {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 32px;
+        }
+        
+        .content-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .content-item:last-child {
+            border-bottom: none;
+        }
+        
+        .content-rank {
+            font-size: 20px;
+            font-weight: 700;
+            opacity: 0.4;
+            min-width: 30px;
+        }
+        
+        .content-thumb {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .content-info {
+            flex: 1;
+        }
+        
+        .content-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .content-category {
+            font-size: 13px;
+            opacity: 0.6;
+        }
+        
+        .content-stats {
+            text-align: right;
+        }
+        
+        .content-views {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .content-engagement {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .chart-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            :root {
+                --spacing: 24px;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .page-title {
+                font-size: 32px;
+            }
+            
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div style="display: flex; align-items: center;">
+            <a href="Tvnetwork copy.html" class="logo">
+                <div class="tv-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                        <path d="M8 20h8"></path>
+                        <path d="M9 3l3 3 3-3"></path>
+                    </svg>
+                </div>
+                <span>TV Network</span>
+            </a>
+            <nav class="nav">
+                <a href="Tvnetwork copy.html" class="nav-item">Home</a>
+                <a href="content-management.html" class="nav-item">Content Management</a>
+                <a href="analytics.html" class="nav-item active">Analytics</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1 class="page-title">Analytics Dashboard</h1>
+                <p class="page-subtitle">Track your content performance and audience insights</p>
+            </div>
+            <select class="date-range">
+                <option>Last 7 days</option>
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+                <option>All time</option>
+            </select>
+        </div>
+
+        <!-- Key Metrics -->
+        <div class="metrics-grid">
+            <div class="metric-card" style="--color-start: #667eea; --color-end: #764ba2;">
+                <div class="metric-header">
+                    <div class="metric-label">Total Views</div>
+                    <div class="metric-icon" style="background: rgba(102, 126, 234, 0.15); color: #667eea;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value">1.24M</div>
+                <div class="metric-change positive">
+                    ↑ 23.5% from last period
+                </div>
+            </div>
+
+            <div class="metric-card" style="--color-start: #22c55e; --color-end: #16a34a;">
+                <div class="metric-header">
+                    <div class="metric-label">Watch Time</div>
+                    <div class="metric-icon" style="background: rgba(34, 197, 94, 0.15); color: #22c55e;">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value">8.4K hrs</div>
+                <div class="metric-change positive">
+                    ↑ 18.2% from last period
+                </div>
+            </div>
+
+            <div class="metric-card" style="--color-start: #f59e0b; --color-end: #d97706;">
+                <div class="metric-header">
+                    <div class="metric-label">Engagement Rate</div>
+                    <div class="metric-icon" style="background: rgba(245, 158, 11, 0.15); color: #f59e0b;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value">67.8%</div>
+                <div class="metric-change positive">
+                    ↑ 5.3% from last period
+                </div>
+            </div>
+
+            <div class="metric-card" style="--color-start: #8b5cf6; --color-end: #7c3aed;">
+                <div class="metric-header">
+                    <div class="metric-label">New Subscribers</div>
+                    <div class="metric-icon" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="metric-value">2,847</div>
+                <div class="metric-change positive">
+                    ↑ 12.7% from last period
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="chart-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Views Over Time</div>
+                    <div class="chart-subtitle">Daily views for the past 7 days</div>
+                </div>
+                <div class="bar-chart">
+                    <div class="bar" style="height: 65%;">
+                        <div class="bar-label">Mon</div>
+                    </div>
+                    <div class="bar" style="height: 78%;">
+                        <div class="bar-label">Tue</div>
+                    </div>
+                    <div class="bar" style="height: 55%;">
+                        <div class="bar-label">Wed</div>
+                    </div>
+                    <div class="bar" style="height: 92%;">
+                        <div class="bar-label">Thu</div>
+                    </div>
+                    <div class="bar" style="height: 88%;">
+                        <div class="bar-label">Fri</div>
+                    </div>
+                    <div class="bar" style="height: 100%;">
+                        <div class="bar-label">Sat</div>
+                    </div>
+                    <div class="bar" style="height: 72%;">
+                        <div class="bar-label">Sun</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Audience Demographics</div>
+                    <div class="chart-subtitle">Age distribution</div>
+                </div>
+                <div style="padding: 20px 0;">
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                            <span>55-64</span>
+                            <span>42%</span>
+                        </div>
+                        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                            <div style="width: 42%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                            <span>65-74</span>
+                            <span>35%</span>
+                        </div>
+                        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                            <div style="width: 35%; height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                            <span>75+</span>
+                            <span>18%</span>
+                        </div>
+                        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                            <div style="width: 18%; height: 100%; background: linear-gradient(90deg, #f59e0b, #d97706); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+                            <span>45-54</span>
+                            <span>5%</span>
+                        </div>
+                        <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
+                            <div style="width: 5%; height: 100%; background: linear-gradient(90deg, #8b5cf6, #7c3aed); border-radius: 4px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Performing Content -->
+        <div class="top-content">
+            <div class="chart-header">
+                <div class="chart-title">Top Performing Content</div>
+                <div class="chart-subtitle">Most viewed content this period</div>
+            </div>
+
+            <div class="content-item">
+                <div class="content-rank">1</div>
+                <div class="content-thumb" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                <div class="content-info">
+                    <div class="content-name">Florida Listings Highlights</div>
+                    <div class="content-category">States • Published 2 weeks ago</div>
+                </div>
+                <div class="content-stats">
+                    <div class="content-views">152K</div>
+                    <div class="content-engagement">8.2% engagement</div>
+                </div>
+            </div>
+
+            <div class="content-item">
+                <div class="content-rank">2</div>
+                <div class="content-thumb" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                <div class="content-info">
+                    <div class="content-name">Evelyn Harper Profile</div>
+                    <div class="content-category">Agents • Published 2 days ago</div>
+                </div>
+                <div class="content-stats">
+                    <div class="content-views">128K</div>
+                    <div class="content-engagement">12.4% engagement</div>
+                </div>
+            </div>
+
+            <div class="content-item">
+                <div class="content-rank">3</div>
+                <div class="content-thumb" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                <div class="content-info">
+                    <div class="content-name">Retirement Living Guide 2024</div>
+                    <div class="content-category">Resources • Published 3 weeks ago</div>
+                </div>
+                <div class="content-stats">
+                    <div class="content-views">98K</div>
+                    <div class="content-engagement">6.8% engagement</div>
+                </div>
+            </div>
+
+            <div class="content-item">
+                <div class="content-rank">4</div>
+                <div class="content-thumb" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                <div class="content-info">
+                    <div class="content-name">Maya Chen Showcase</div>
+                    <div class="content-category">Agents • Published 5 days ago</div>
+                </div>
+                <div class="content-stats">
+                    <div class="content-views">87K</div>
+                    <div class="content-engagement">9.1% engagement</div>
+                </div>
+            </div>
+
+            <div class="content-item">
+                <div class="content-rank">5</div>
+                <div class="content-thumb" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);"></div>
+                <div class="content-info">
+                    <div class="content-name">Senior Living Community Tour</div>
+                    <div class="content-category">Properties • Published 1 week ago</div>
+                </div>
+                <div class="content-stats">
+                    <div class="content-views">76K</div>
+                    <div class="content-engagement">7.5% engagement</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Interactive bar chart
+        document.querySelectorAll('.bar').forEach((bar, index) => {
+            const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            const views = ['165K', '198K', '142K', '234K', '224K', '256K', '184K'];
+            
+            bar.addEventListener('click', () => {
+                alert(`${days[index]}: ${views[index]} views`);
+            });
+        });
+    </script>
+</body>
+</html>

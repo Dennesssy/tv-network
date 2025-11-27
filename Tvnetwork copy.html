@@ -1,0 +1,2556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Better Lifestyle Network - Share your listings on national TV. Connect with senior real estate specialists across the nation.">
+    <meta name="theme-color" content="#000000">
+    <title>Better Lifestyle Network - TV Network Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --apple-blue: #0071e3;
+            --card-width: 240px;
+            --card-height: 360px;
+            --spacing: 60px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        /* Header with glass morphism */
+        .header {
+            background: rgba(0, 0, 0, 0.72);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            backdrop-filter: saturate(180%) blur(20px);
+            padding: 12px var(--spacing);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 0.5px solid rgba(255, 255, 255, 0.15);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 17px;
+            font-weight: 600;
+        }
+        
+        .tv-icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 32px;
+            margin-left: 48px;
+        }
+        
+        .nav-item {
+            color: rgba(255, 255, 255, 0.92);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.active {
+            border-bottom-color: #fff;
+        }
+        
+        .nav-item:hover {
+            color: #fff;
+        }
+        
+        .header-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .btn {
+            padding: 6px 16px;
+            border-radius: 980px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn .icon-chip,
+        .nav-item .icon-chip {
+            margin-right: 8px;
+        }
+
+        .icon-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+
+        .icon-chip svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .icon-circle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .icon-circle svg,
+        .icon-large svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .icon-large {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #22c55e;
+        }
+
+        .tv-icon svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+        }
+        
+        .btn-search {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        
+        .btn-search:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .btn-signin {
+            background: var(--apple-blue);
+            color: #fff;
+        }
+        
+        .btn-signin:hover {
+            background: #0077ed;
+        }
+        
+        /* Main Container */
+        .container {
+            padding: 0 var(--spacing) 60px;
+            max-width: 1920px;
+            margin: 0 auto;
+        }
+        
+        /* Hero Section with Video */
+        .hero {
+            position: relative;
+            height: 65vh;
+            min-height: 500px;
+            margin: 40px 0 80px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
+        }
+        
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.45;
+        }
+
+        .hero-video:fullscreen {
+            opacity: 1 !important;
+        }
+
+        .hero-video:-webkit-full-screen {
+            opacity: 1 !important;
+        }
+
+        .hero-video:-moz-full-screen {
+            opacity: 1 !important;
+        }
+
+        .hero-video:-ms-fullscreen {
+            opacity: 1 !important;
+        }
+        
+        .hero-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        }
+        
+        .hero-content {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            z-index: 2;
+            max-width: 600px;
+        }
+        
+        .hero-logo {
+            width: 180px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.5));
+        }
+        
+        .hero-title {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 16px;
+            letter-spacing: -1.5px;
+            line-height: 1.1;
+        }
+        
+        .hero-subtitle {
+            font-size: 21px;
+            line-height: 1.5;
+            opacity: 0.95;
+            margin-bottom: 32px;
+            font-weight: 400;
+        }
+        
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .mute-toggle {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .mute-toggle:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .mute-toggle:active {
+            transform: scale(0.95);
+        }
+
+        #muteIcon {
+            font-size: 20px;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+        }
+
+        .btn-primary {
+            background: #fff;
+            color: #000;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Section */
+        .section {
+            margin-bottom: 80px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 28px;
+        }
+        
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        .see-all-link {
+            color: var(--apple-blue);
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        
+        .see-all-link:hover {
+            gap: 10px;
+        }
+        
+        /* Carousel */
+        .carousel-wrapper {
+            position: relative;
+            margin: 0 -8px;
+        }
+        
+        .carousel {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scroll-behavior: smooth;
+            padding: 8px;
+            /* intentionally removed cross-browser scrollbar styles for compatibility */
+        }
+        
+        .carousel::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .carousel-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 10;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        .carousel-wrapper:hover .carousel-nav-btn {
+            opacity: 1;
+        }
+        
+        .carousel-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-nav-btn.prev {
+            left: -28px;
+        }
+        
+        .carousel-nav-btn.next {
+            right: -28px;
+        }
+        
+        /* Card */
+        .card {
+            position: relative;
+            flex-shrink: 0;
+            width: var(--card-width);
+            height: var(--card-height);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card:hover {
+            transform: scale(1.08) translateY(-12px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+            z-index: 100;
+        }
+        
+        .card-image-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        
+        .card:hover .card-image {
+            transform: scale(1.1);
+        }
+        
+        .card-rank {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            font-size: 80px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 0.9;
+            text-shadow: 
+                -3px -3px 0 #000,
+                3px -3px 0 #000,
+                -3px 3px 0 #000,
+                3px 3px 0 #000,
+                0 0 30px rgba(0, 0, 0, 0.9);
+            z-index: 3;
+            font-family: 'SF Pro Display', sans-serif;
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, transparent 100%);
+            z-index: 2;
+        }
+        
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            z-index: 3;
+        }
+        
+        .card-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.2;
+        }
+        
+        .card-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .card-genre {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .card-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 4;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .card:hover .card-play-btn {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        /* Promo Banner */
+        .promo-banner {
+            background: linear-gradient(90deg, var(--apple-blue), #00a0f0);
+            padding: 48px 60px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.05)"/></svg>');
+            opacity: 0.5;
+        }
+        
+        .promo-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .promo-content h3 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .promo-content p {
+            font-size: 17px;
+            opacity: 0.95;
+        }
+        
+        .promo-btn {
+            background: #fff;
+            color: var(--apple-blue);
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .promo-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Loading State */
+        .card-skeleton {
+            background: rgba(255, 255, 255, 0.05);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            :root {
+                --spacing: 40px;
+                --card-width: 200px;
+                --card-height: 300px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            :root {
+                --spacing: 24px;
+                --card-width: 160px;
+                --card-height: 240px;
+            }
+            
+            .nav {
+                display: none;
+            }
+            
+            .hero {
+                height: 50vh;
+                min-height: 400px;
+            }
+            
+            .hero-content {
+                left: 24px;
+                bottom: 40px;
+            }
+            
+            .hero-title {
+                font-size: 36px;
+            }
+            
+            .hero-subtitle {
+                font-size: 17px;
+            }
+            
+            .promo-banner {
+                flex-direction: column;
+                gap: 24px;
+                text-align: center;
+                padding: 32px 24px;
+            }
+            
+            .section-title {
+                font-size: 24px;
+            }
+            
+            .card-rank {
+                font-size: 60px;
+            }
+        }
+        /* Orbs (neutral tones) */
+        .orb {
+            position: fixed;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(48px);
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
+            will-change: transform;
+        }
+        .orb1 { background: radial-gradient(circle at 30% 30%, #7dd3fc, #0ea5e9); }
+        .orb2 { background: radial-gradient(circle at 70% 70%, #fde68a, #f59e0b); }
+        .orb3 { background: radial-gradient(circle at 50% 50%, #a5b4fc, #6366f1); }
+
+        /* Fading overlay text */
+        .fade-text { animation: fadeCycle 6s ease-in-out infinite alternate; }
+        @keyframes fadeCycle {
+            0% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        /* Auth Overlay */
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            z-index: 10001;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .auth-overlay.active {
+            display: flex;
+        }
+
+        .auth-modal {
+            background: rgba(26, 26, 26, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 48px;
+            max-width: 440px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .auth-subtitle {
+            font-size: 16px;
+            opacity: 0.7;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-input {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--apple-blue);
+        }
+
+        .auth-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .auth-btn-primary {
+            background: var(--apple-blue);
+            color: #fff;
+        }
+
+        .auth-btn-primary:hover {
+            background: #0077ed;
+            transform: translateY(-2px);
+        }
+
+        .auth-btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            opacity: 0.5;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .auth-social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+        }
+
+        .auth-social-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        .auth-footer a {
+            color: var(--apple-blue);
+            text-decoration: none;
+        }
+
+        .auth-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 16px;
+            display: none;
+        }
+
+        .auth-error.active {
+            display: block;
+        }
+
+        .auth-loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Registration Form Styles */
+        .reg-step {
+            display: none;
+        }
+
+        .reg-step.active {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .auth-input textarea {
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        select.auth-input {
+            cursor: pointer;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Missing Utility Classes */
+        .flex-align-center { display: flex; align-items: center; }
+        .flex-1 { flex: 1; }
+        .list-reset { list-style: none; padding: 0; margin: 0; }
+        .list-inline { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+        .list-inline li { display: flex; align-items: center; gap: 12px; }
+        .mt-24 { margin-top: 24px; }
+        .mb-24 { margin-bottom: 24px; }
+        .muted-note { font-size: 13px; opacity: 0.6; text-align: center; margin-top: 16px; }
+        .h3-small { font-size: 18px; font-weight: 600; margin-bottom: 16px; }
+        .auth-modal-body { margin: 24px 0; }
+        .btn-link { background: none; border: none; color: var(--apple-blue); cursor: pointer; padding: 8px 16px; font-size: 14px; transition: opacity 0.2s; }
+        .btn-link:hover { opacity: 0.7; }
+        .btn-ghost { background: transparent; border: none; color: rgba(255, 255, 255, 0.92); cursor: pointer; }
+        .btn-ghost:hover { color: #fff; }
+        .hidden { display: none !important; }
+        .checkbox-small { width: 18px; height: 18px; margin-right: 8px; cursor: pointer; }
+        .label-inline { display: flex; align-items: center; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px; cursor: pointer; }
+        .label-inline:hover { background: rgba(255, 255, 255, 0.05); }
+        .small-text { font-size: 14px; }
+        .hero-content-abs { position: absolute; bottom: 60px; left: 60px; }
+        .animate-scale-in { animation: scaleIn 0.5s ease; }
+
+        /* Auth Modal Sizes */
+        .auth-modal--large { max-width: 600px; }
+        .auth-modal--small { max-width: 480px; }
+
+        /* Modal Styles */
+        .modal-content {
+            position: relative;
+            background: rgba(26, 26, 26, 0.98);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 48px;
+            max-width: 900px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        .slide-container {
+            position: relative;
+            width: 100%;
+            height: 450px;
+            border-radius: 16px;
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .slide-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide-image.active {
+            opacity: 1;
+        }
+
+        .slide-btn-prev,
+        .slide-btn-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            font-size: 32px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide-btn-prev { left: 16px; }
+        .slide-btn-next { right: 16px; }
+
+        .slide-btn-prev:hover,
+        .slide-btn-next:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .nav-hero {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .slide-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .slide-indicator.active,
+        .slide-indicator:hover {
+            background: white;
+            transform: scale(1.3);
+        }
+
+        .modal-cta {
+            display: flex;
+            gap: 16px;
+            margin-top: 24px;
+        }
+
+        .close-modal-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Sound Icon States */
+        .icon-sound svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .icon-sound .icon-sound-off { display: none; }
+        .icon-sound[data-muted="true"] .icon-sound-on { display: none; }
+        .icon-sound[data-muted="true"] .icon-sound-off { display: block; }
+
+        /* Focus Styles for Accessibility */
+        .btn:focus-visible,
+        .auth-input:focus-visible,
+        .card:focus-visible {
+            outline: 2px solid var(--apple-blue);
+            outline-offset: 2px;
+        }
+
+        /* Loading Spinner */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Smooth Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Reduce motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border-width: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="sr-only" style="position: fixed; top: 0; left: 0; z-index: 10001; background: var(--apple-blue); color: white; padding: 12px 24px; text-decoration: none; border-radius: 0 0 8px 0;" onfocus="this.style.clip='auto'; this.style.width='auto'; this.style.height='auto';" onblur="this.style.clip='rect(0,0,0,0)'; this.style.width='1px'; this.style.height='1px';">
+        Skip to main content
+    </a>
+    
+    <!-- Auth Overlay -->
+    <div class="auth-overlay" id="authOverlay">
+        <div class="auth-modal">
+            <div class="auth-header">
+                <h2 class="auth-title">Welcome to TV Network</h2>
+                <p class="auth-subtitle">Sign in to access exclusive content</p>
+            </div>
+
+            <div class="auth-error" id="authError"></div>
+
+            <form class="auth-form" id="authForm">
+                <label for="emailInput" class="sr-only">Email Address</label>
+                <input 
+                    type="email" 
+                    class="auth-input" 
+                    id="emailInput" 
+                    placeholder="Enter your email"
+                    required
+                    autocomplete="email"
+                    aria-required="true"
+                >
+                <button type="submit" class="auth-btn auth-btn-primary" id="submitBtn">
+                    Continue
+                </button>
+            </form>
+
+            <div class="auth-divider">or</div>
+
+            <button class="auth-btn auth-social-btn hidden" id="appleSignInBtn">
+                <span>🍎</span>
+                <span>Continue with Apple</span>
+            </button>
+
+            <button class="auth-btn auth-social-btn hidden" id="googleSignInBtn">
+                <span>G</span>
+                <span>Continue with Google</span>
+            </button>
+
+            <div class="auth-footer">
+                By continuing, you agree to our 
+                <a href="#terms">Terms of Service</a> and 
+                <a href="#privacy">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Form Overlay -->
+    <div class="auth-overlay" id="registrationOverlay">
+        <div class="auth-modal auth-modal--large">
+            <div class="auth-header">
+                <h2 class="auth-title">Complete Registration</h2>
+                <p class="auth-subtitle">Step <span id="regStep">1</span> of 4</p>
+            </div>
+
+            <div class="auth-error" id="regError"></div>
+
+            <form class="auth-form" id="registrationForm">
+                <!-- Step 1: Profile -->
+                <div class="reg-step active" data-step="1">
+                    <label for="firstName" class="sr-only">First Name</label>
+                    <input type="text" class="auth-input" id="firstName" placeholder="First Name" required aria-required="true">
+                    
+                    <label for="lastName" class="sr-only">Last Name</label>
+                    <input type="text" class="auth-input" id="lastName" placeholder="Last Name" required aria-required="true">
+                    
+                    <label for="phone" class="sr-only">Phone Number</label>
+                    <input type="tel" class="auth-input" id="phone" placeholder="Phone" required aria-required="true">
+                    
+                    <label for="email" class="sr-only">Email Address</label>
+                    <input type="email" class="auth-input" id="email" placeholder="Email" required aria-required="true">
+                </div>
+
+                <!-- Step 2: Practice -->
+                <div class="reg-step" data-step="2">
+                    <label for="company" class="sr-only">Company or Brokerage</label>
+                    <input type="text" class="auth-input" id="company" placeholder="Company/Brokerage">
+                    
+                    <label for="serviceArea" class="sr-only">Service Area</label>
+                    <input type="text" class="auth-input" id="serviceArea" placeholder="Service Area" required aria-required="true">
+                    
+                    <label for="license" class="sr-only">License Number</label>
+                    <input type="text" class="auth-input" id="license" placeholder="License Number" required aria-required="true">
+                    
+                    <label for="yearLicensed" class="sr-only">Year Licensed</label>
+                    <input type="text" class="auth-input" id="yearLicensed" placeholder="Year Licensed" required aria-required="true">
+                </div>
+
+                <!-- Step 3: Branding -->
+                <div class="reg-step" data-step="3">
+                    <label for="website" class="sr-only">Website URL</label>
+                    <input type="text" class="auth-input" id="website" placeholder="Website URL">
+                    
+                    <label for="bio" class="sr-only">Short Bio (170 characters max)</label>
+                    <textarea class="auth-input" id="bio" placeholder="Short Bio (170 chars max)" maxlength="170" rows="3"></textarea>
+                    
+                    <label for="socialLinks" class="sr-only">Social Media Links</label>
+                    <input type="text" class="auth-input" id="socialLinks" placeholder="Social Media Links">
+                </div>
+
+                <!-- Step 4: Confirm -->
+                <div class="reg-step" data-step="4">
+                    <label class="label-inline">
+                        <input type="checkbox" id="confirmSres" required class="checkbox-small" aria-required="true">
+                        <span class="small-text">I confirm I hold an active SRES® designation</span>
+                    </label>
+                    <label for="programPlan" class="sr-only">Select Program Plan</label>
+                    <select class="auth-input" id="programPlan" required aria-required="true">
+                        <option value="">Select Program Plan</option>
+                        <option value="annual">Annual Plan - $1,232.50 (15% savings)</option>
+                        <option value="monthly">Monthly Plan - $250 setup + $100/mo</option>
+                    </select>
+                </div>
+
+                <div class="list-inline mt-24">
+                    <button type="button" class="auth-btn auth-social-btn hidden" id="regPrevBtn">
+                        ← Previous
+                    </button>
+                    <button type="button" class="auth-btn auth-btn-primary flex-1" id="regNextBtn">
+                        Next →
+                    </button>
+                    <button type="submit" class="auth-btn auth-btn-primary flex-1 hidden" id="regSubmitBtn">
+                        Complete Registration
+                    </button>
+                </div>
+            </form>
+
+            <div class="auth-footer">
+                <button type="button" onclick="document.getElementById('registrationOverlay').classList.remove('active')" class="btn-link">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Screen Overlay -->
+    <div class="auth-overlay" id="successOverlay">
+        <div class="auth-modal auth-modal--small">
+            <div class="icon-large mb-24 animate-scale-in" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M9 12l2 2 4-4"></path>
+                </svg>
+            </div>
+            <h2 class="auth-title">Welcome to TV Network!</h2>
+            <p class="auth-subtitle">
+                Your registration is complete
+            </p>
+
+            <div class="auth-modal-body">
+                <h3 class="h3-small">What's Next:</h3>
+                <ul class="list-reset">
+                    <li class="list-inline">
+                        <span class="icon-circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="5" width="18" height="14" rx="2"></rect>
+                                <path d="M3 7l9 6 9-6"></path>
+                            </svg>
+                        </span>
+                        <span>Check your email for confirmation</span>
+                    </li>
+                    <li class="list-inline">
+                        <span class="icon-circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                                <path d="M3 10h18"></path>
+                                <path d="M7 6l2 4"></path>
+                                <path d="M11 6l2 4"></path>
+                                <path d="M15 6l2 4"></path>
+                            </svg>
+                        </span>
+                        <span>Explore exclusive content</span>
+                    </li>
+                    <li class="list-inline">
+                        <span class="icon-circle" aria-hidden="true">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="8" r="4"></circle>
+                                <path d="M6 20c0-3.333 2.667-6 6-6s6 2.667 6 6"></path>
+                            </svg>
+                        </span>
+                        <span>Complete your profile</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="list-inline">
+                <button class="auth-btn auth-btn-primary flex-1" onclick="closeSuccessScreen()">
+                    Start Exploring
+                </button>
+                <button class="auth-btn auth-social-btn flex-1" onclick="closeSuccessScreen()">
+                    My Profile
+                </button>
+            </div>
+
+            <p class="muted-note">
+                This screen will close automatically in <span id="successTimer">10</span> seconds
+            </p>
+        </div>
+    </div>
+
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+    <!-- Header -->
+    <header class="header">
+        <div class="flex-align-center">
+            <div class="logo">
+                <div class="tv-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="6" width="18" height="12" rx="2"></rect>
+                        <path d="M8 20h8"></path>
+                        <path d="M9 3l3 3 3-3"></path>
+                    </svg>
+                </div>
+                <span>Preview</span>
+            </div>
+            <nav class="nav">
+                <a href="Tvnetwork copy.html" class="nav-item active">Home</a>
+                <a href="content-management.html" class="nav-item">Content Management</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <button class="btn btn-search">
+                <span class="icon-chip" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="11" cy="11" r="6"></circle>
+                        <path d="M17 17l4 4"></path>
+                    </svg>
+                </span>
+                <span>Search</span>
+            </button>
+            <button class="btn btn-signin">
+                <span class="icon-chip" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="4"></circle>
+                        <path d="M6 20c0-3.333 2.667-6 6-6s6 2.667 6 6"></path>
+                    </svg>
+                </span>
+                <span>Sign In</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container" id="main-content" role="main">
+        <!-- Hero -->
+        <div class="hero" id="hero">
+            <video class="hero-video" autoplay muted loop preload="auto" controls id="heroVideo">
+                <source src="./assets/Senior_Agent_Success copy 2.mp4" type="video/mp4">
+            </video>
+            <button class="mute-toggle" id="muteToggle" onclick="toggleMute()">
+                <span id="muteIcon" class="icon-sound" data-muted="true" aria-hidden="true">
+                    <svg class="icon-sound-on" viewBox="0 0 24 24">
+                        <path d="M5 15v-6h4l4-4v14l-4-4H5z"></path>
+                        <path d="M16 9.5a3.5 3.5 0 0 1 0 5"></path>
+                        <path d="M18.5 7a6 6 0 0 1 0 10"></path>
+                    </svg>
+                    <svg class="icon-sound-off" viewBox="0 0 24 24">
+                        <path d="M5 15v-6h4l4-4v14l-4-4H5z"></path>
+                        <line x1="18" y1="9" x2="22" y2="13"></line>
+                        <line x1="22" y1="9" x2="18" y2="13"></line>
+                    </svg>
+                </span>
+            </button>
+            <div class="hero-gradient"></div>
+            <div class="hero-content hero-content-abs">
+                <div class="hero-title fade-text">Better Lifestyle network</div>
+                <div class="hero-subtitle fade-text">
+                    share your listings on national tv here only
+                </div>
+                <div class="hero-actions">
+                    <button class="btn-primary" onclick="goFullscreen()">Start Watching</button>
+                    <button class="btn-secondary">Learn More</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Agents -->
+        <section class="section" aria-labelledby="agents-title">
+            <div class="section-header">
+                <h2 class="section-title" id="agents-title">Agents</h2>
+                <a href="#" class="see-all-link">See All →</a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="carousel-nav-btn prev" onclick="scrollCarousel('tv-carousel', -1)" aria-label="Previous agents">‹</button>
+                <div class="carousel" id="tv-carousel" role="region" aria-label="Featured agents carousel"></div>
+                <button class="carousel-nav-btn next" onclick="scrollCarousel('tv-carousel', 1)" aria-label="Next agents">›</button>
+            </div>
+        </section>
+
+        <!-- States -->
+        <section class="section" aria-labelledby="states-title">
+            <div class="section-header">
+                <h2 class="section-title" id="states-title">States</h2>
+                <a href="#" class="see-all-link">See All →</a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="carousel-nav-btn prev" onclick="scrollCarousel('movies-carousel', -1)" aria-label="Previous states">‹</button>
+                <div class="carousel" id="movies-carousel" role="region" aria-label="States carousel"></div>
+                <button class="carousel-nav-btn next" onclick="scrollCarousel('movies-carousel', 1)" aria-label="Next states">›</button>
+            </div>
+        </section>
+
+        <!-- Promo Banner -->
+        <div class="promo-banner">
+            <div class="promo-content">
+                <h3>Get Started Today</h3>
+                <p>Update your listing and get started with your benefits today</p>
+            </div>
+            <button class="promo-btn">Accept Free Trial</button>
+        </div>
+
+        <!-- Trending Now -->
+        <section class="section" aria-labelledby="trending-title">
+            <div class="section-header">
+                <h2 class="section-title" id="trending-title">Trending Now</h2>
+                <a href="#" class="see-all-link">See All →</a>
+            </div>
+            <div class="carousel-wrapper">
+                <button class="carousel-nav-btn prev" onclick="scrollCarousel('trending-carousel', -1)" aria-label="Previous trending items">‹</button>
+                <div class="carousel" id="trending-carousel" role="region" aria-label="Trending content carousel"></div>
+                <button class="carousel-nav-btn next" onclick="scrollCarousel('trending-carousel', 1)" aria-label="Next trending items">›</button>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ============================================
+        // GLOBAL ERROR HANDLER
+        // ============================================
+        window.addEventListener('error', (e) => {
+            console.error('Global error:', e.error);
+            const errorMessage = e.error?.message || 'An unexpected error occurred';
+            if (window.showToast) {
+                showToast('⚠️ ' + errorMessage);
+            }
+        });
+
+        window.addEventListener('unhandledrejection', (e) => {
+            console.error('Unhandled promise rejection:', e.reason);
+            if (window.showToast) {
+                showToast('⚠️ Something went wrong. Please try again.');
+            }
+            e.preventDefault();
+        });
+
+        // Mute toggle functionality
+        function toggleMute() {
+            const video = document.getElementById('heroVideo');
+            const muteIcon = document.getElementById('muteIcon');
+
+            if (!video) return;
+
+            video.muted = !video.muted;
+            if (muteIcon) {
+                muteIcon.setAttribute('data-muted', video.muted);
+            }
+        }
+
+        // Face ID / Touch ID Authentication
+        document.getElementById("faceIdBtn")?.addEventListener("click", async () => {
+            if (!window.PublicKeyCredential) {
+                alert("WebAuthn not supported");
+                return;
+            }
+
+            if (!window.isSecureContext) {
+                alert("Biometric auth requires HTTPS or localhost");
+                return;
+            }
+
+            const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+            if (!available) {
+                alert("No biometric authenticator available on this device");
+                return;
+            }
+
+            try {
+                const challenge = new Uint8Array(32);
+                crypto.getRandomValues(challenge);
+
+                const publicKeyOptions = {
+                    challenge,
+                    rp: { name: "Senior Agent Success", id: window.location.hostname || "localhost" },
+                    user: {
+                        id: new Uint8Array(16),
+                        name: "demo@example.com",
+                        displayName: "Demo User"
+                    },
+                    pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+                    authenticatorSelection: {
+                        authenticatorAttachment: "platform",
+                        userVerification: "required"
+                    },
+                    timeout: 60000
+                };
+
+                await navigator.credentials.create({ publicKey: publicKeyOptions });
+                alert("✅ Biometric authentication successful!");
+            } catch (err) {
+                alert("Authentication failed: " + err.message);
+            }
+        });
+
+        document.getElementById("applePayBtn")?.addEventListener("click", () => {
+            if (!window.ApplePaySession) {
+                alert("Apple Pay only works in Safari");
+                return;
+            }
+
+            const canMakePayments = ApplePaySession.canMakePayments();
+            if (!canMakePayments) {
+                alert("Apple Pay not available on this device");
+                return;
+            }
+
+            const request = {
+                countryCode: "US",
+                currencyCode: "USD",
+                supportedNetworks: ["visa", "masterCard", "amex", "discover"],
+                merchantCapabilities: ["supports3DS"],
+                total: {
+                    label: "Senior Agent Success Membership",
+                    amount: "99.00"
+                }
+            };
+
+            try {
+                const session = new ApplePaySession(3, request);
+
+                session.onvalidatemerchant = (event) => {
+                    console.log("Merchant validation:", event.validationURL);
+                    alert("✅ Apple Pay sheet opened (demo – merchant validation required)");
+                    session.abort();
+                };
+
+                session.onpaymentauthorized = (event) => {
+                    console.log("Payment authorized:", event.payment);
+                    session.completePayment(ApplePaySession.STATUS_SUCCESS);
+                    alert("✅ Payment successful!");
+                };
+
+                session.oncancel = () => {
+                    console.log("Payment cancelled");
+                };
+
+                session.begin();
+            } catch (err) {
+                alert("Apple Pay error: " + err.message);
+            }
+        });
+
+        // Fullscreen functionality
+        function goFullscreen() {
+            const video = document.getElementById('heroVideo');
+
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) { /* Safari */
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) { /* IE11 */
+                video.msRequestFullscreen();
+            }
+        }
+
+        // Content data
+        const tvShows = [
+            { id: 1, title: "Evelyn Harper", genre: "Scottsdale, AZ", gradient: "linear-gradient(135deg, #2d4059, #ea5455)", image: "assets/Pomelli/24_7_Guidance_&_Connection_version_1.png" },
+            { id: 2, title: "Maya Chen", genre: "Portland, OR", gradient: "linear-gradient(135deg, #36454f, #6b5b95)", image: "assets/Pomelli/Live_Your_Golden_Years_version_1.png" },
+            { id: 3, title: "Caroline Ortiz", genre: "Austin, TX", gradient: "linear-gradient(135deg, #ff9a9e, #fad0c4)", image: "assets/Pomelli/Community_Comfort_Still_version_1.png" },
+            { id: 4, title: "Jonah Reed", genre: "Charlotte, NC", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)", image: "assets/Pomelli/A_Community_Hug_version_1.png" },
+            { id: 5, title: "Sloane Patel", genre: "San Diego, CA", gradient: "linear-gradient(135deg, #667eea, #764ba2)", image: "assets/Pomelli/Your_Senior_Community_Awaits_version_1.png" },
+            { id: 6, title: "Invasion", genre: "Sci-Fi", gradient: "linear-gradient(135deg, #0f2027, #2c5364)" },
+            { id: 7, title: "Mr. Scorsese", genre: "Documentary", gradient: "linear-gradient(135deg, #eb3349, #f45c43)" },
+            { id: 8, title: "Platonic", genre: "Comedy", gradient: "linear-gradient(135deg, #c471f5, #fa71cd)" },
+        ];
+
+        const movies = [
+            { id: 1, title: "AL", genre: "Alabama", gradient: "linear-gradient(135deg, #ff6b6b, #ee5a24)" },
+            { id: 2, title: "AK", genre: "Alaska", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 3, title: "AZ", genre: "Arizona", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 4, title: "AR", genre: "Arkansas", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 5, title: "CA", genre: "California", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 6, title: "CO", genre: "Colorado", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 7, title: "CT", genre: "Connecticut", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 8, title: "DE", genre: "Delaware", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 9, title: "FL", genre: "Florida", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 10, title: "GA", genre: "Georgia", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 11, title: "HI", genre: "Hawaii", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 12, title: "ID", genre: "Idaho", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 13, title: "IL", genre: "Illinois", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 14, title: "IN", genre: "Indiana", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 15, title: "IA", genre: "Iowa", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 16, title: "KS", genre: "Kansas", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 17, title: "KY", genre: "Kentucky", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 18, title: "LA", genre: "Louisiana", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 19, title: "ME", genre: "Maine", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 20, title: "MD", genre: "Maryland", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 21, title: "MA", genre: "Massachusetts", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 22, title: "MI", genre: "Michigan", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 23, title: "MN", genre: "Minnesota", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 24, title: "MS", genre: "Mississippi", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 25, title: "MO", genre: "Missouri", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 26, title: "MT", genre: "Montana", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 27, title: "NE", genre: "Nebraska", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 28, title: "NV", genre: "Nevada", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 29, title: "NH", genre: "New Hampshire", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 30, title: "NJ", genre: "New Jersey", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 31, title: "NM", genre: "New Mexico", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 32, title: "NY", genre: "New York", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 33, title: "NC", genre: "North Carolina", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 34, title: "ND", genre: "North Dakota", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 35, title: "OH", genre: "Ohio", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 36, title: "OK", genre: "Oklahoma", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 37, title: "OR", genre: "Oregon", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 38, title: "PA", genre: "Pennsylvania", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 39, title: "RI", genre: "Rhode Island", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 40, title: "SC", genre: "South Carolina", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 41, title: "SD", genre: "South Dakota", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 42, title: "TN", genre: "Tennessee", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 43, title: "TX", genre: "Texas", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 44, title: "UT", genre: "Utah", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" },
+            { id: 45, title: "VT", genre: "Vermont", gradient: "linear-gradient(135deg, #fa709a, #fee140)" },
+            { id: 46, title: "VA", genre: "Virginia", gradient: "linear-gradient(135deg, #30cfd0, #330867)" },
+            { id: 47, title: "WA", genre: "Washington", gradient: "linear-gradient(135deg, #667eea, #764ba2)" },
+            { id: 48, title: "WV", genre: "West Virginia", gradient: "linear-gradient(135deg, #f093fb, #f5576c)" },
+            { id: 49, title: "WI", genre: "Wisconsin", gradient: "linear-gradient(135deg, #4facfe, #00f2fe)" },
+            { id: 50, title: "WY", genre: "Wyoming", gradient: "linear-gradient(135deg, #43e97b, #38f9d7)" }
+        ];
+
+        // Create card element
+        function createCard(item, index, hasRank = true) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('aria-label', `${item.title} - ${item.genre}`);
+
+            const imageContent = item.image ?
+                `<img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy">` :
+                `<div class="card-gradient"></div>`;
+
+            card.innerHTML = `
+                <div class="card-image-wrapper">
+                    ${hasRank ? `<div class="card-rank" aria-hidden="true">${index + 1}</div>` : ''}
+                    ${imageContent}
+                    <div class="card-info">
+                        <div class="card-title">${item.title}</div>
+                        <div class="card-meta">
+                            <span class="card-genre">${item.genre}</span>
+                        </div>
+                    </div>
+                    <button class="card-play-btn" aria-label="Play ${item.title}">▶</button>
+                </div>
+            `;
+            
+            // Apply the background gradient dynamically to avoid inline styles in HTML
+            const wrapperEl = card.querySelector('.card-image-wrapper');
+            if (wrapperEl) wrapperEl.style.background = item.gradient || '';
+
+            const handleCardClick = (e) => {
+                // Don't require authentication for viewing content
+                e.stopPropagation();
+                showModal(item);
+            };
+            
+            card.addEventListener('click', handleCardClick);
+            
+            // Keyboard support
+            card.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleCardClick(e);
+                }
+            });
+            
+            return card;
+        }
+
+        // Populate carousels
+        function populateCarousel(containerId, items, hasRank = true) {
+            const container = document.getElementById(containerId);
+            items.forEach((item, index) => {
+                container.appendChild(createCard(item, index, hasRank));
+            });
+        }
+
+        // Scroll carousel
+        function scrollCarousel(id, direction) {
+            const carousel = document.getElementById(id);
+            const scrollAmount = 260 * 3;
+            carousel.scrollBy({
+                left: direction * scrollAmount,
+                behavior: 'smooth'
+            });
+        }
+
+        // Modal with slideshow for content details
+        function showModal(item) {
+            // Sample images - replace with actual image URLs
+            const sampleImages = item.images || [
+                `https://picsum.photos/800/450?random=${item.id}1`,
+                `https://picsum.photos/800/450?random=${item.id}2`,
+                `https://picsum.photos/800/450?random=${item.id}3`,
+                `https://picsum.photos/800/450?random=${item.id}4`
+            ];
+            
+            let currentSlide = 0;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.setAttribute('role', 'dialog');
+            modal.setAttribute('aria-modal', 'true');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                backdrop-filter: blur(10px);
+            `;
+            
+            modal.innerHTML = `
+                <div class="modal-content" tabindex="-1">
+                    <!-- Slideshow Container -->
+                    <div class="slide-container" data-gradient="${item.gradient}">
+                        ${sampleImages.map((img, i) => `
+                            <img src="${img}" 
+                                 alt="${item.title} - Image ${i + 1}"
+                                 class="slide-image ${i === 0 ? 'active' : ''}" 
+                                 data-slide="${i}">
+                        `).join('')}
+                        
+                        <!-- Navigation Arrows -->
+                        <button class="slide-prev slide-btn-prev" aria-label="Previous slide">
+                            ‹
+                        </button>
+                        <button class="slide-next slide-btn-next" aria-label="Next slide">
+                            ›
+                        </button>
+                        
+                        <!-- Slide Indicators -->
+                        <div class="nav-hero" role="tablist">
+                            ${sampleImages.map((_, i) => `
+                                <div class="slide-indicator ${i === 0 ? 'active' : ''}" 
+                                     data-slide="${i}" 
+                                     role="tab" 
+                                     aria-label="Slide ${i + 1}"
+                                     tabindex="0"></div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <h2 class="hero-title">${item.title}</h2>
+                    <p class="hero-subtitle">${item.genre}</p>
+                    
+                    <div class="modal-cta">
+                        <button class="btn btn-primary play-slideshow-btn">
+                            ▶ Play Slideshow
+                        </button>
+                        <button class="btn btn-ghost close-modal-btn">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Focus trap
+            const modalContent = modal.querySelector('.modal-content');
+            modalContent.focus();
+            
+            // Set dynamic gradient backgrounds
+            const slideContainerEl = modal.querySelector('.slide-container');
+            if (slideContainerEl) slideContainerEl.style.background = item.gradient || '';
+            
+            // Slideshow functionality
+            const slides = modal.querySelectorAll('.slide-image');
+            const indicators = modal.querySelectorAll('.slide-indicator');
+            let autoplayInterval = null;
+            
+            function showSlide(index) {
+                currentSlide = (index + sampleImages.length) % sampleImages.length;
+                
+                slides.forEach((slide, i) => {
+                    slide.style.opacity = i === currentSlide ? '1' : '0';
+                });
+                
+                indicators.forEach((indicator, i) => {
+                    indicator.style.background = i === currentSlide ? 'white' : 'rgba(255,255,255,0.4)';
+                    indicator.classList.toggle('active', i === currentSlide);
+                });
+            }
+            
+            function nextSlide() {
+                showSlide(currentSlide + 1);
+            }
+            
+            function prevSlide() {
+                showSlide(currentSlide - 1);
+            }
+            
+            function startAutoplay() {
+                stopAutoplay();
+                autoplayInterval = setInterval(nextSlide, 3000);
+                modal.querySelector('.play-slideshow-btn').innerHTML = '⏸ Pause Slideshow';
+            }
+            
+            function stopAutoplay() {
+                if (autoplayInterval) {
+                    clearInterval(autoplayInterval);
+                    autoplayInterval = null;
+                    modal.querySelector('.play-slideshow-btn').innerHTML = '▶ Play Slideshow';
+                }
+            }
+            
+            function closeModal() {
+                stopAutoplay();
+                modal.remove();
+                document.body.style.overflow = '';
+            }
+            
+            // Event listeners
+            modal.querySelector('.slide-prev').addEventListener('click', () => {
+                stopAutoplay();
+                prevSlide();
+            });
+            
+            modal.querySelector('.slide-next').addEventListener('click', () => {
+                stopAutoplay();
+                nextSlide();
+            });
+            
+            indicators.forEach((indicator, i) => {
+                indicator.addEventListener('click', () => {
+                    stopAutoplay();
+                    showSlide(i);
+                });
+                // Keyboard support for indicators
+                indicator.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        stopAutoplay();
+                        showSlide(i);
+                    }
+                });
+            });
+            
+            modal.querySelector('.play-slideshow-btn').addEventListener('click', () => {
+                if (autoplayInterval) {
+                    stopAutoplay();
+                } else {
+                    startAutoplay();
+                }
+            });
+            
+            modal.querySelector('.close-modal-btn').addEventListener('click', closeModal);
+            
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // Keyboard navigation
+            modal.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                } else if (e.key === 'ArrowLeft') {
+                    stopAutoplay();
+                    prevSlide();
+                } else if (e.key === 'ArrowRight') {
+                    stopAutoplay();
+                    nextSlide();
+                }
+            });
+            
+            // Hover effects for nav buttons
+            const navButtons = modal.querySelectorAll('.slide-prev, .slide-next');
+            navButtons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    btn.style.background = 'rgba(0,0,0,0.9)';
+                    btn.style.transform = 'translateY(-50%) scale(1.1)';
+                });
+                btn.addEventListener('mouseleave', () => {
+                    btn.style.background = 'rgba(0,0,0,0.7)';
+                    btn.style.transform = 'translateY(-50%) scale(1)';
+                });
+            });
+        }
+
+        // Initialize
+        populateCarousel('tv-carousel', tvShows, true);
+        populateCarousel('movies-carousel', movies, true);
+        populateCarousel('trending-carousel', [...tvShows, ...movies].sort(() => Math.random() - 0.5).slice(0, 8), false);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            // Close modals with Escape
+            if (e.key === 'Escape') {
+                document.querySelectorAll('[style*="fixed"]').forEach(el => el.remove());
+                
+                // Close auth overlays
+                if (document.getElementById('authOverlay').classList.contains('active')) {
+                    localStorage.setItem('authDismissed', 'true');
+                    hideAuthOverlay();
+                }
+                if (document.getElementById('registrationOverlay').classList.contains('active')) {
+                    document.getElementById('registrationOverlay').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+                if (document.getElementById('successOverlay').classList.contains('active')) {
+                    closeSuccessScreen();
+                }
+            }
+            
+            // Arrow keys for carousel navigation
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const focusedCarousel = document.activeElement.closest('.carousel');
+                if (focusedCarousel) {
+                    const direction = e.key === 'ArrowLeft' ? -1 : 1;
+                    focusedCarousel.scrollBy({
+                        left: direction * 260,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+
+        // Parallax on hero with throttling
+        const throttle = (fn, delay) => {
+            let last = 0;
+            return (...args) => {
+                const now = Date.now();
+                if (now - last >= delay) {
+                    last = now;
+                    fn(...args);
+                }
+            };
+        };
+
+        window.addEventListener('scroll', throttle(() => {
+            const hero = document.getElementById('hero');
+            if (!hero) return;
+            const scrolled = window.pageYOffset;
+            hero.style.transform = `translateY(${scrolled * 0.5}px) scale(${1 + scrolled * 0.0001})`;
+        }, 16));
+
+        // Touch swipe for mobile
+        document.querySelectorAll('.carousel').forEach(carousel => {
+            let startX, scrollLeft;
+            
+            carousel.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].pageX;
+                scrollLeft = carousel.scrollLeft;
+            });
+            
+            carousel.addEventListener('touchmove', (e) => {
+                const x = e.touches[0].pageX;
+                const walk = (startX - x) * 2;
+                carousel.scrollLeft = scrollLeft + walk;
+            });
+        });
+
+        // Animate cards on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.card').forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s, transform 0.6s';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, i * 30);
+            });
+        });
+
+        // ============================================
+        // AUTH SYSTEM
+        // ============================================
+
+        // Session Management
+        const BACKEND_BASE_URL = `${window.location.origin}/api`;
+        const AUTH_STORAGE_KEY = 'sas_tvnetwork_auth_token';
+        const AUTH_EXPIRY_KEY = 'sas_tvnetwork_auth_expiry';
+
+        function getStoredToken() {
+            const token = localStorage.getItem(AUTH_STORAGE_KEY);
+            const expiry = parseInt(localStorage.getItem(AUTH_EXPIRY_KEY) || '0', 10);
+            if (!token || Number.isNaN(expiry) || Date.now() > expiry) {
+                clearStoredToken();
+                return null;
+            }
+            return token;
+        }
+
+        function storeToken(token, ttlMs = 24 * 60 * 60 * 1000) {
+            const expiry = Date.now() + ttlMs;
+            localStorage.setItem(AUTH_STORAGE_KEY, token);
+            localStorage.setItem(AUTH_EXPIRY_KEY, expiry.toString());
+        }
+
+        function clearStoredToken() {
+            localStorage.removeItem(AUTH_STORAGE_KEY);
+            localStorage.removeItem(AUTH_EXPIRY_KEY);
+        }
+
+        function isAuthenticated() {
+            return Boolean(getStoredToken());
+        }
+
+        function logout() {
+            clearStoredToken();
+        }
+
+        // Device Detection
+        function getDeviceType() {
+            const ua = navigator.userAgent;
+            if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
+            if (/Macintosh|Mac OS X/.test(ua)) return 'mac';
+            if (/Android/.test(ua)) return 'android';
+            if (/Windows/.test(ua)) return 'windows';
+            return 'other';
+        }
+
+        function getDeviceInfo() {
+            return {
+                type: getDeviceType(),
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                language: navigator.language,
+                screenWidth: window.screen.width,
+                screenHeight: window.screen.height
+            };
+        }
+
+        // Show/Hide Auth Overlay
+        function showAuthOverlay() {
+            document.getElementById('authOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideAuthOverlay() {
+            document.getElementById('authOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Error Display
+        function showError(message) {
+            const errorEl = document.getElementById('authError');
+            errorEl.textContent = message;
+            errorEl.classList.add('active');
+            setTimeout(() => errorEl.classList.remove('active'), 5000);
+        }
+
+        // Email Validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Grist API Integration (Mock Implementation)
+        async function captureEmail(email, deviceInfo) {
+            try {
+                // Mock API - Replace with real backend endpoint
+                console.log('Capturing email:', { email, deviceInfo });
+                
+                // Simulate network delay
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Mock successful response
+                return { 
+                    success: true, 
+                    id: `lead_${Date.now()}`,
+                    message: 'Email captured successfully'
+                };
+            } catch (error) {
+                console.warn('Lead capture failed:', error);
+                return { success: false, offline: true };
+            }
+        }
+
+        async function loginWithEmail(email, password = 'demo-pass') {
+            // Mock API - Replace with real backend endpoint
+            console.log('Login attempt:', { email });
+            
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Mock successful authentication
+            const mockToken = btoa(`${email}:${Date.now()}`);
+            storeToken(mockToken);
+            
+            return {
+                success: true,
+                token: mockToken,
+                user: { email }
+            };
+        }
+
+        // Apple/Google Sign In - Unified Biometric Auth
+        async function initiateBiometricAuth(email, provider = 'biometric') {
+            if (!window.PublicKeyCredential) {
+                showError("Biometric auth not supported. Using email instead.");
+                await sendMagicLink(email);
+                return;
+            }
+
+            if (!window.isSecureContext) {
+                showError("Biometric auth requires HTTPS or localhost");
+                await sendMagicLink(email);
+                return;
+            }
+
+            const available = await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable();
+            if (!available) {
+                showError("No biometric authenticator available");
+                await sendMagicLink(email);
+                return;
+            }
+
+            try {
+                const challenge = new Uint8Array(32);
+                crypto.getRandomValues(challenge);
+
+                const publicKeyOptions = {
+                    challenge,
+                    rp: { name: "TV Network", id: window.location.hostname || "localhost" },
+                    user: {
+                        id: new Uint8Array(16),
+                        name: email,
+                        displayName: email.split('@')[0]
+                    },
+                    pubKeyCredParams: [{ alg: -7, type: "public-key" }],
+                    authenticatorSelection: {
+                        authenticatorAttachment: "platform",
+                        userVerification: "required"
+                    },
+                    timeout: 60000
+                };
+
+                await navigator.credentials.create({ publicKey: publicKeyOptions });
+                
+                await loginWithEmail(email);
+                hideAuthOverlay();
+                const authType = provider === 'apple' ? 'Touch ID / Face ID' : 'Fingerprint / Face ID';
+                showToast(`✅ Authenticated with ${authType}`);
+            } catch (err) {
+                showError('Biometric authentication failed: ' + err.message);
+                await sendMagicLink(email);
+            }
+        }
+
+        // Magic Link Fallback
+        async function sendMagicLink(email) {
+            try {
+                await loginWithEmail(email);
+                hideAuthOverlay();
+                showToast('Welcome back!');
+                return { success: true };
+            } catch (error) {
+                showError('Unable to authenticate right now. Please try again.');
+                throw error;
+            }
+        }
+
+        // Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 32px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(26, 26, 26, 0.95);
+                color: white;
+                padding: 16px 32px;
+                border-radius: 12px;
+                font-size: 16px;
+                z-index: 10002;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                animation: slideUp 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Form Submit Handler
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const emailInput = document.getElementById('emailInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const email = emailInput.value.trim();
+
+            // Validate email
+            if (!validateEmail(email)) {
+                showError('Please enter a valid email address');
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="auth-loading"></span> Processing...';
+
+            try {
+                // Get device info
+                const deviceInfo = getDeviceInfo();
+
+                // Save to Grist
+                await captureEmail(email, deviceInfo);
+
+                // Determine auth method based on device
+                const device = deviceInfo.type;
+
+                if (device === 'ios' || device === 'mac') {
+                    // Show Apple Sign In button
+                    document.getElementById('appleSignInBtn').classList.remove('hidden');
+                    document.getElementById('appleSignInBtn').onclick = () => initiateBiometricAuth(email, 'apple');
+                    submitBtn.innerHTML = 'Continue with Email';
+                    submitBtn.disabled = false;
+                    submitBtn.onclick = (e) => {
+                        e.preventDefault();
+                        sendMagicLink(email);
+                    };
+                } else if (device === 'android') {
+                    // Show Google Sign In button
+                    document.getElementById('googleSignInBtn').classList.remove('hidden');
+                    document.getElementById('googleSignInBtn').onclick = () => initiateBiometricAuth(email, 'google');
+                    submitBtn.innerHTML = 'Continue with Email';
+                    submitBtn.disabled = false;
+                    submitBtn.onclick = (e) => {
+                        e.preventDefault();
+                        sendMagicLink(email);
+                    };
+                } else {
+                    // Send magic link for other devices
+                    await sendMagicLink(email);
+                }
+
+            } catch (error) {
+                showError('Something went wrong. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Continue';
+            }
+        });
+
+        // Check auth on page load
+        window.addEventListener('load', () => {
+            if (!isAuthenticated()) {
+                // Show auth overlay after 2 seconds (optional, can be removed)
+                setTimeout(() => {
+                    if (!localStorage.getItem('authDismissed')) {
+                        // Don't auto-show, let users browse freely
+                        // showAuthOverlay();
+                    }
+                }, 2000);
+            }
+        });
+
+        // Don't intercept card clicks for authentication
+        // Removed authentication gate - users can browse freely
+
+        // Close overlay on background click
+        document.getElementById('authOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'authOverlay') {
+                localStorage.setItem('authDismissed', 'true');
+                hideAuthOverlay();
+            }
+        });
+
+        // Close registration overlay on background click
+        document.getElementById('registrationOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'registrationOverlay') {
+                document.getElementById('registrationOverlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // Close success overlay on background click
+        document.getElementById('successOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'successOverlay') {
+                closeSuccessScreen();
+            }
+        });
+
+        // Remove 'Keyboard support' duplicate and keep keyboard navigation consolidated
+        // (Already handled in main keyboard navigation section above)
+
+        // ============================================
+        // REGISTRATION FORM
+        // ============================================
+
+        let currentRegStep = 1;
+        const totalRegSteps = 4;
+
+        function showRegStep(step) {
+            document.querySelectorAll('.reg-step').forEach(s => s.classList.remove('active'));
+            document.querySelector(`.reg-step[data-step="${step}"]`).classList.add('active');
+            document.getElementById('regStep').textContent = step;
+
+            // Button visibility
+            const prevBtn = document.getElementById('regPrevBtn');
+            const nextBtn = document.getElementById('regNextBtn');
+            const submitBtn = document.getElementById('regSubmitBtn');
+            
+            if (prevBtn) prevBtn.classList.toggle('hidden', step <= 1);
+            if (nextBtn) nextBtn.classList.toggle('hidden', step >= totalRegSteps);
+            if (submitBtn) submitBtn.classList.toggle('hidden', step < totalRegSteps);
+        }
+
+        function validateRegStep(step) {
+            const stepEl = document.querySelector(`.reg-step[data-step="${step}"]`);
+            const inputs = stepEl.querySelectorAll('input[required], select[required], textarea[required]');
+            
+            for (let input of inputs) {
+                if (!input.value.trim() && input.type !== 'checkbox') {
+                    showRegError('Please fill in all required fields');
+                    return false;
+                }
+                if (input.type === 'checkbox' && !input.checked) {
+                    showRegError('Please confirm SRES® designation');
+                    return false;
+                }
+                if (input.type === 'email' && !validateEmail(input.value)) {
+                    showRegError('Please enter a valid email');
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function showRegError(message) {
+            const errorEl = document.getElementById('regError');
+            errorEl.textContent = message;
+            errorEl.classList.add('active');
+            setTimeout(() => errorEl.classList.remove('active'), 5000);
+        }
+
+        // Next button
+        document.getElementById('regNextBtn').addEventListener('click', () => {
+            if (validateRegStep(currentRegStep)) {
+                currentRegStep++;
+                showRegStep(currentRegStep);
+            }
+        });
+
+        // Previous button
+        document.getElementById('regPrevBtn').addEventListener('click', () => {
+            currentRegStep--;
+            showRegStep(currentRegStep);
+        });
+
+        // Form submission
+        document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!validateRegStep(currentRegStep)) return;
+
+            const submitBtn = document.getElementById('regSubmitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="auth-loading"></span> Submitting...';
+
+            try {
+                const formData = {
+                    firstName: document.getElementById('firstName').value,
+                    lastName: document.getElementById('lastName').value,
+                    phone: document.getElementById('phone').value,
+                    email: document.getElementById('email').value,
+                    company: document.getElementById('company').value,
+                    serviceArea: document.getElementById('serviceArea').value,
+                    license: document.getElementById('license').value,
+                    yearLicensed: document.getElementById('yearLicensed').value,
+                    website: document.getElementById('website').value,
+                    bio: document.getElementById('bio').value,
+                    socialLinks: document.getElementById('socialLinks').value,
+                    confirmSres: document.getElementById('confirmSres').checked,
+                    programPlan: document.getElementById('programPlan').value,
+                    source: 'tvnetwork-registration',
+                    timestamp: new Date().toISOString()
+                };
+
+                // Save to Grist
+                const token = getStoredToken();
+                const requestHeaders = {
+                    'Content-Type': 'application/json'
+                };
+                if (token) {
+                    requestHeaders['Authorization'] = `Bearer ${token}`;
+                }
+
+                const response = await fetch(`${BACKEND_BASE_URL}/agents/register`, {
+                    method: 'POST',
+                    headers: requestHeaders,
+                    body: JSON.stringify(formData)
+                }).catch(() => ({ ok: false }));
+
+                // Mock success for demo
+                if (!response || !response.ok) {
+                    console.warn('Backend unavailable, using mock success');
+                }
+
+                // Trigger biometric auth
+                const device = getDeviceType();
+                if (device === 'ios' || device === 'mac') {
+                    await initiateBiometricAuth(formData.email, 'apple');
+                } else if (device === 'android') {
+                    await initiateBiometricAuth(formData.email, 'google');
+                } else {
+                    await sendMagicLink(formData.email);
+                }
+
+                // Close registration form
+                document.getElementById('registrationOverlay').classList.remove('active');
+                
+                // Show success screen
+                showSuccessScreen();
+
+            } catch (error) {
+                showRegError('Registration failed. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Complete Registration';
+            }
+        });
+
+        // Show registration form (can be triggered from nav or after auth)
+        function showRegistrationForm() {
+            currentRegStep = 1;
+            showRegStep(1);
+            document.getElementById('registrationOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Add to window for external access
+        window.showRegistrationForm = showRegistrationForm;
+
+        // ============================================
+        // SUCCESS SCREEN
+        // ============================================
+
+        let successTimer;
+        let successCountdown;
+
+        function showSuccessScreen() {
+            document.getElementById('successOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Start 10 second countdown
+            let seconds = 10;
+            document.getElementById('successTimer').textContent = seconds;
+            
+            successCountdown = setInterval(() => {
+                seconds--;
+                document.getElementById('successTimer').textContent = seconds;
+                if (seconds <= 0) {
+                    closeSuccessScreen();
+                }
+            }, 1000);
+        }
+
+        function closeSuccessScreen() {
+            clearInterval(successCountdown);
+            document.getElementById('successOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+            showToast('✅ Welcome! Start exploring exclusive content.');
+        }
+
+        window.closeSuccessScreen = closeSuccessScreen;
+
+        // ============================================
+        // END AUTH SYSTEM
+        // ============================================
+
+        // Orb mouse-follow behavior (slow drift, varied direction)
+        (function () {
+            const orbs = Array.from(document.querySelectorAll('.orb'));
+            if (!orbs.length) return;
+
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            let t = 0;
+            let animationId = null;
+            let isTabActive = true;
+
+            const states = orbs.map(() => ({ x: mouseX, y: mouseY }));
+            const radii = [40, 60, 80];
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+            });
+
+            // Pause animations when tab is inactive
+            document.addEventListener('visibilitychange', () => {
+                isTabActive = !document.hidden;
+                if (isTabActive && !animationId) {
+                    animate();
+                } else if (!isTabActive && animationId) {
+                    cancelAnimationFrame(animationId);
+                    animationId = null;
+                }
+            });
+
+            function animate() {
+                if (!isTabActive) return;
+                
+                t += 0.01;
+                orbs.forEach((orb, i) => {
+                    const s = states[i];
+                    const ease = 0.05 + i * 0.015; // slightly different easing per orb
+
+                    // Gentle drift in different directions per orb
+                    const driftX = Math.cos(t * (1 + i * 0.2)) * radii[i] * (i % 2 === 0 ? 1 : -1);
+                    const driftY = Math.sin(t * (1 + i * 0.25)) * radii[i] * (i % 2 === 0 ? -1 : 1);
+
+                    const targetX = mouseX + driftX + (i - 1) * 80;
+                    const targetY = mouseY + driftY + (i - 1) * 60;
+
+                    s.x += (targetX - s.x) * ease;
+                    s.y += (targetY - s.y) * ease;
+
+                    orb.style.transform = `translate(${s.x - 160}px, ${s.y - 160}px)`;
+                });
+
+                animationId = requestAnimationFrame(animate);
+            }
+
+            animate();
+            window.addEventListener('resize', () => {
+                states.forEach((s) => { s.x = window.innerWidth / 2; s.y = window.innerHeight / 2; });
+            });
+        })();
+    </script>
+</body>
+</html>
