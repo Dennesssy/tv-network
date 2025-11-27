@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "name": "tv-network",
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
