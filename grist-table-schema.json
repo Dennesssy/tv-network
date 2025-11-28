@@ -1,0 +1,98 @@
+{
+  "tableName": "OpenRouter_Models",
+  "description": "Grist table schema for storing OpenRouter LLM models data",
+  "columns": [
+    {
+      "name": "ModelID",
+      "type": "Text",
+      "description": "Unique identifier for the model (e.g., 'x-ai/grok-code-fast-1')",
+      "required": true
+    },
+    {
+      "name": "Name",
+      "type": "Text",
+      "description": "Display name of the model (e.g., 'Grok Code Fast')",
+      "required": true
+    },
+    {
+      "name": "Provider",
+      "type": "Text",
+      "description": "Model provider/company (e.g., 'xAI', 'Anthropic', 'OpenAI')",
+      "required": true
+    },
+    {
+      "name": "Description",
+      "type": "Text",
+      "description": "Detailed description of the model's capabilities and use cases",
+      "required": true
+    },
+    {
+      "name": "ContextLength",
+      "type": "Numeric",
+      "description": "Maximum context window in tokens (e.g., 131072, 200000)",
+      "required": false
+    },
+    {
+      "name": "MarketShare",
+      "type": "Numeric",
+      "description": "Market share percentage (e.g., 42.3, 13.0)",
+      "required": false
+    },
+    {
+      "name": "TokensProcessed",
+      "type": "Text",
+      "description": "Total tokens processed (e.g., '555B', '170B')",
+      "required": false
+    },
+    {
+      "name": "PricingInput",
+      "type": "Numeric",
+      "description": "Price per million input tokens in USD (e.g., 0.5, 3.0)",
+      "required": false
+    },
+    {
+      "name": "PricingOutput",
+      "type": "Numeric",
+      "description": "Price per million output tokens in USD (e.g., 1.5, 15.0)",
+      "required": false
+    },
+    {
+      "name": "Capabilities",
+      "type": "Text",
+      "description": "Comma-separated list of capabilities (e.g., 'code-generation, debugging, refactoring')",
+      "required": false
+    },
+    {
+      "name": "Gradient",
+      "type": "Text",
+      "description": "CSS gradient for UI display (e.g., 'linear-gradient(135deg, #000000, #1a1a1a)')",
+      "required": false
+    },
+    {
+      "name": "LastUpdated",
+      "type": "DateTime",
+      "description": "Timestamp of last update to this record",
+      "required": false
+    }
+  ],
+  "setup": {
+    "steps": [
+      "1. Create a new Grist document or open an existing one",
+      "2. Add a new table named 'OpenRouter_Models'",
+      "3. Create columns matching the schema above with appropriate types",
+      "4. Get your API key from Grist (Profile > API → Create API Key)",
+      "5. Get your Document ID from the URL (https://docs.getgrist.com/..../DOC_ID/...)",
+      "6. Update the constants in Tvnetwork copy.html:",
+      "   - GRIST_API_KEY = 'your_api_key_here'",
+      "   - GRIST_DOC_ID = 'your_doc_id_here'",
+      "7. Uncomment the syncModelsToGrist() line in initializeCarousels() to enable auto-sync"
+    ]
+  },
+  "apiEndpoints": {
+    "create": "POST https://docs.getgrist.com/api/docs/{docId}/tables/{tableName}/records",
+    "read": "GET https://docs.getgrist.com/api/docs/{docId}/tables/{tableName}/records",
+    "update": "PATCH https://docs.getgrist.com/api/docs/{docId}/tables/{tableName}/records",
+    "delete": "DELETE https://docs.getgrist.com/api/docs/{docId}/tables/{tableName}/records"
+  },
+  "sampleData": "See openrouter-models.json for sample data that can be imported"
+}
