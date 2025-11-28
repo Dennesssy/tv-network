@@ -1666,14 +1666,101 @@
 
         // Content data - Leading LLMs from OpenRouter (Fallback data)
         let tvShows = [
-            { id: 1, title: "Grok Code Fast", genre: "xAI", gradient: "linear-gradient(135deg, #000000, #1a1a1a)", description: "555B tokens · 42.3% market share" },
-            { id: 2, title: "Claude 4.5 Sonnet", genre: "Anthropic", gradient: "linear-gradient(135deg, #cc785c, #d4a574)", description: "170B tokens · 13.0% share · Complex reasoning" },
-            { id: 3, title: "Gemini 3 Pro Preview", genre: "Google", gradient: "linear-gradient(135deg, #4285f4, #34a853)", description: "60B tokens · 4.6% share · Advanced AI" },
-            { id: 4, title: "Claude Sonnet 3.7", genre: "Anthropic", gradient: "linear-gradient(135deg, #d4a574, #e6c79c)", description: "Flexible reasoning · 128K context" },
-            { id: 5, title: "GPT-4o", genre: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #1a7f64)", description: "Multimodal capabilities · Chat optimized" },
-            { id: 6, title: "Claude Haiku 4.5", genre: "Anthropic", gradient: "linear-gradient(135deg, #a67c52, #cc9966)", description: "Fast coding · Efficient performance" },
-            { id: 7, title: "Llama 3.1 405B", genre: "Meta", gradient: "linear-gradient(135deg, #0668e1, #0a7cff)", description: "Open-source flagship · 128K context" },
-            { id: 8, title: "Jamba Large 1.7", genre: "AI21", gradient: "linear-gradient(135deg, #c471f5, #fa71cd)", description: "256K context · Finance & research" },
+            { id: 1, title: "Grok Code Fast", genre: "xAI", gradient: "linear-gradient(135deg, #000000, #1a1a1a)", description: "555B tokens · 42.3% market share", pricing: { input: 0.5, output: 1.5 } },
+            { id: 2, title: "Claude 4.5 Sonnet", genre: "Anthropic", gradient: "linear-gradient(135deg, #cc785c, #d4a574)", description: "170B tokens · 13.0% share", pricing: { input: 3.0, output: 15.0 } },
+            { id: 3, title: "Gemini 3 Pro Preview", genre: "Google", gradient: "linear-gradient(135deg, #4285f4, #34a853)", description: "60B tokens · 4.6% share", pricing: { input: 2.5, output: 10.0 } },
+            { id: 4, title: "Claude Sonnet 3.7", genre: "Anthropic", gradient: "linear-gradient(135deg, #d4a574, #e6c79c)", description: "Flexible reasoning · 128K context", pricing: { input: 2.0, output: 10.0 } },
+            { id: 5, title: "GPT-4o", genre: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #1a7f64)", description: "Multimodal capabilities", pricing: { input: 2.5, output: 10.0 } },
+            { id: 6, title: "Claude Haiku 4.5", genre: "Anthropic", gradient: "linear-gradient(135deg, #a67c52, #cc9966)", description: "Fast coding", pricing: { input: 0.8, output: 4.0 } },
+            { id: 7, title: "Llama 3.1 405B", genre: "Meta", gradient: "linear-gradient(135deg, #0668e1, #0a7cff)", description: "Open-source flagship", pricing: { input: 1.0, output: 1.0 } },
+            { id: 8, title: "Jamba Large 1.7", genre: "AI21", gradient: "linear-gradient(135deg, #c471f5, #fa71cd)", description: "256K context", pricing: { input: 2.0, output: 8.0 } },
+        ];
+
+        // Coding Assistants Data
+        const codingAssistants = [
+            { id: 1, title: "GitHub Copilot", provider: "GitHub", gradient: "linear-gradient(135deg, #24292f, #57606a)", pricing: { input: 0.0, output: 0.0 }, downloads: "Premium" },
+            { id: 2, title: "CodeGPT-4 Turbo", provider: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #1a7f64)", pricing: { input: 0.01, output: 0.03 }, downloads: "API" },
+            { id: 3, title: "Claude Code", provider: "Anthropic", gradient: "linear-gradient(135deg, #cc785c, #d4a574)", pricing: { input: 0.008, output: 0.024 }, downloads: "API" },
+            { id: 4, title: "WizardCoder 34B", provider: "WizardLM", gradient: "linear-gradient(135deg, #6366f1, #a855f7)", pricing: { input: 0.0, output: 0.0 }, downloads: "50M+" },
+            { id: 5, title: "CodeLlama 70B", provider: "Meta", gradient: "linear-gradient(135deg, #0668e1, #0a7cff)", pricing: { input: 0.0, output: 0.0 }, downloads: "120M+" },
+            { id: 6, title: "Phind CodeLlama", provider: "Phind", gradient: "linear-gradient(135deg, #ec4899, #8b5cf6)", pricing: { input: 0.0, output: 0.0 }, downloads: "35M+" },
+            { id: 7, title: "StarCoder2 15B", provider: "BigCode", gradient: "linear-gradient(135deg, #f59e0b, #d97706)", pricing: { input: 0.0, output: 0.0 }, downloads: "80M+" },
+            { id: 8, title: "DeepSeek Coder", provider: "DeepSeek", gradient: "linear-gradient(135deg, #eb3349, #f45c43)", pricing: { input: 0.0, output: 0.0 }, downloads: "65M+" },
+            { id: 9, title: "Gemini Code", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #34a853)", pricing: { input: 0.00025, output: 0.00125 }, downloads: "API" },
+            { id: 10, title: "Replit Code V1.5", provider: "Replit", gradient: "linear-gradient(135deg, #f26207, #ff6c37)", pricing: { input: 0.0, output: 0.0 }, downloads: "25M+" },
+            { id: 11, title: "CodeGen 16B", provider: "Salesforce", gradient: "linear-gradient(135deg, #00a1e0, #0176d3)", pricing: { input: 0.0, output: 0.0 }, downloads: "45M+" },
+            { id: 12, title: "InCoder 6.7B", provider: "Meta", gradient: "linear-gradient(135deg, #0668e1, #764ba2)", pricing: { input: 0.0, output: 0.0 }, downloads: "30M+" },
+            { id: 13, title: "SantaCoder", provider: "BigCode", gradient: "linear-gradient(135deg, #dc2626, #b91c1c)", pricing: { input: 0.0, output: 0.0 }, downloads: "28M+" },
+            { id: 14, title: "CodeT5+", provider: "Salesforce", gradient: "linear-gradient(135deg, #0176d3, #032d60)", pricing: { input: 0.0, output: 0.0 }, downloads: "40M+" },
+            { id: 15, title: "PolyCoder", provider: "CMU", gradient: "linear-gradient(135deg, #991b1b, #dc2626)", pricing: { input: 0.0, output: 0.0 }, downloads: "18M+" },
+            { id: 16, title: "CodeParrot", provider: "HF", gradient: "linear-gradient(135deg, #ff9a0e, #ffc837)", pricing: { input: 0.0, output: 0.0 }, downloads: "22M+" },
+            { id: 17, title: "GPT-3.5 Turbo", provider: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #059669)", pricing: { input: 0.0005, output: 0.0015 }, downloads: "API" },
+            { id: 18, title: "Mistral Code", provider: "Mistral", gradient: "linear-gradient(135deg, #f2a154, #ee7752)", pricing: { input: 0.001, output: 0.003 }, downloads: "API" },
+            { id: 19, title: "Yi-Coder 9B", provider: "01.AI", gradient: "linear-gradient(135deg, #3b82f6, #8b5cf6)", pricing: { input: 0.0, output: 0.0 }, downloads: "32M+" },
+            { id: 20, title: "StableCode", provider: "Stability", gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", pricing: { input: 0.0, output: 0.0 }, downloads: "38M+" },
+            { id: 21, title: "CodeShell", provider: "WisdomShell", gradient: "linear-gradient(135deg, #06b6d4, #0891b2)", pricing: { input: 0.0, output: 0.0 }, downloads: "15M+" },
+            { id: 22, title: "Refact 1.6B", provider: "Refact", gradient: "linear-gradient(135deg, #14b8a6, #0d9488)", pricing: { input: 0.0, output: 0.0 }, downloads: "12M+" },
+            { id: 23, title: "WizardCoder 15B", provider: "WizardLM", gradient: "linear-gradient(135deg, #7c3aed, #6366f1)", pricing: { input: 0.0, output: 0.0 }, downloads: "55M+" },
+            { id: 24, title: "Magicoder", provider: "OSS", gradient: "linear-gradient(135deg, #a855f7, #d946ef)", pricing: { input: 0.0, output: 0.0 }, downloads: "20M+" },
+            { id: 25, title: "OpenCodeInterpreter", provider: "OpenCode", gradient: "linear-gradient(135deg, #f97316, #ea580c)", pricing: { input: 0.0, output: 0.0 }, downloads: "26M+" },
+        ];
+
+        // ONNX Models Data
+        const onnxModels = [
+            { id: 1, title: "ResNet-50 ONNX", provider: "Microsoft", gradient: "linear-gradient(135deg, #00a4ef, #0078d4)", downloads: "250M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 2, title: "BERT ONNX", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #34a853)", downloads: "180M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 3, title: "YOLOv8 ONNX", provider: "Ultralytics", gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)", downloads: "320M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 4, title: "MobileNet V3", provider: "Google", gradient: "linear-gradient(135deg, #34a853, #0f9d58)", downloads: "200M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 5, title: "EfficientNet ONNX", provider: "Google", gradient: "linear-gradient(135deg, #ea4335, #fbbc04)", downloads: "150M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 6, title: "ViT ONNX", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #0f9d58)", downloads: "120M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 7, title: "Whisper ONNX", provider: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #059669)", downloads: "95M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 8, title: "CLIP ONNX", provider: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #8b5cf6)", downloads: "110M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 9, title: "DistilBERT ONNX", provider: "HuggingFace", gradient: "linear-gradient(135deg, #ff9a0e, #ffc837)", downloads: "140M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 10, title: "SSD MobileNet", provider: "TensorFlow", gradient: "linear-gradient(135deg, #ff6f00, #ff8f00)", downloads: "175M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 11, title: "Faster R-CNN", provider: "Microsoft", gradient: "linear-gradient(135deg, #00a4ef, #737373)", downloads: "85M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 12, title: "DenseNet ONNX", provider: "Cornell", gradient: "linear-gradient(135deg, #b91c1c, #dc2626)", downloads: "65M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 13, title: "Inception V3", provider: "Google", gradient: "linear-gradient(135deg, #fbbc04, #f59e0b)", downloads: "90M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 14, title: "SqueezeNet ONNX", provider: "DeepScale", gradient: "linear-gradient(135deg, #14b8a6, #06b6d4)", downloads: "55M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 15, title: "AlexNet ONNX", provider: "Berkeley", gradient: "linear-gradient(135deg, #0891b2, #0e7490)", downloads: "48M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 16, title: "VGG16 ONNX", provider: "Oxford", gradient: "linear-gradient(135deg, #7c3aed, #6d28d9)", downloads: "70M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 17, title: "GPT-2 ONNX", provider: "OpenAI", gradient: "linear-gradient(135deg, #10a37f, #1a7f64)", downloads: "100M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 18, title: "T5 ONNX", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #ea4335)", downloads: "78M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 19, title: "RoBERTa ONNX", provider: "Meta", gradient: "linear-gradient(135deg, #0668e1, #0a7cff)", downloads: "125M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 20, title: "XLNet ONNX", provider: "CMU", gradient: "linear-gradient(135deg, #991b1b, #b91c1c)", downloads: "42M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 21, title: "ELECTRA ONNX", provider: "Google", gradient: "linear-gradient(135deg, #34a853, #0f9d58)", downloads: "38M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 22, title: "ALBERT ONNX", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #0071c5)", downloads: "52M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 23, title: "DeBERTa ONNX", provider: "Microsoft", gradient: "linear-gradient(135deg, #00a4ef, #0078d4)", downloads: "44M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 24, title: "ConvNeXt ONNX", provider: "Meta", gradient: "linear-gradient(135deg, #0668e1, #764ba2)", downloads: "35M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 25, title: "Swin Transformer", provider: "Microsoft", gradient: "linear-gradient(135deg, #00a4ef, #f25022)", downloads: "60M+", pricing: { input: 0.0, output: 0.0 } },
+        ];
+
+        // Free Models Data
+        const freeModels = [
+            { id: 1, title: "Llama 3.1 8B", provider: "Meta", gradient: "linear-gradient(135deg, #0668e1, #0a7cff)", downloads: "450M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 2, title: "Mistral 7B", provider: "Mistral", gradient: "linear-gradient(135deg, #f2a154, #ee7752)", downloads: "380M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 3, title: "Gemma 2 7B", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #34a853)", downloads: "320M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 4, title: "Phi-3 Mini", provider: "Microsoft", gradient: "linear-gradient(135deg, #00a4ef, #0078d4)", downloads: "280M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 5, title: "Qwen 2.5 7B", provider: "Alibaba", gradient: "linear-gradient(135deg, #ff6b6b, #ee5a24)", downloads: "250M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 6, title: "BLOOM 7B", provider: "BigScience", gradient: "linear-gradient(135deg, #ff6b9d, #c06c84)", downloads: "220M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 7, title: "Falcon 7B", provider: "TII", gradient: "linear-gradient(135deg, #d97706, #f59e0b)", downloads: "200M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 8, title: "MPT-7B", provider: "MosaicML", gradient: "linear-gradient(135deg, #8b5cf6, #6366f1)", downloads: "180M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 9, title: "RedPajama 3B", provider: "Together", gradient: "linear-gradient(135deg, #dc2626, #b91c1c)", downloads: "160M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 10, title: "StableLM 3B", provider: "Stability", gradient: "linear-gradient(135deg, #8b5cf6, #ec4899)", downloads: "145M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 11, title: "OpenLLaMA 7B", provider: "OpenLLM", gradient: "linear-gradient(135deg, #0891b2, #06b6d4)", downloads: "135M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 12, title: "Vicuna 7B", provider: "LMSYS", gradient: "linear-gradient(135deg, #14b8a6, #10b981)", downloads: "125M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 13, title: "Alpaca 7B", provider: "Stanford", gradient: "linear-gradient(135deg, #991b1b, #dc2626)", downloads: "110M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 14, title: "Dolly 3B", provider: "Databricks", gradient: "linear-gradient(135deg, #f59e0b, #d97706)", downloads: "95M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 15, title: "GPT-J 6B", provider: "EleutherAI", gradient: "linear-gradient(135deg, #6366f1, #8b5cf6)", downloads: "280M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 16, title: "GPT-NeoX 20B", provider: "EleutherAI", gradient: "linear-gradient(135deg, #7c3aed, #a855f7)", downloads: "150M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 17, title: "FLAN-T5 XL", provider: "Google", gradient: "linear-gradient(135deg, #4285f4, #ea4335)", downloads: "240M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 18, title: "OPT 6.7B", provider: "Meta", gradient: "linear-gradient(135deg, #0668e1, #764ba2)", downloads: "130M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 19, title: "Pythia 6.9B", provider: "EleutherAI", gradient: "linear-gradient(135deg, #6d28d9, #5b21b6)", downloads: "88M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 20, title: "Cerebras-GPT 6.7B", provider: "Cerebras", gradient: "linear-gradient(135deg, #0e7490, #0891b2)", downloads: "72M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 21, title: "RWKV-4 7B", provider: "RWKV", gradient: "linear-gradient(135deg, #be123c, #e11d48)", downloads: "65M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 22, title: "Baichuan 7B", provider: "Baichuan", gradient: "linear-gradient(135deg, #ea580c, #f97316)", downloads: "90M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 23, title: "ChatGLM2 6B", provider: "Tsinghua", gradient: "linear-gradient(135deg, #15803d, #16a34a)", downloads: "105M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 24, title: "InternLM 7B", provider: "Shanghai AI", gradient: "linear-gradient(135deg, #0369a1, #0284c7)", downloads: "78M+", pricing: { input: 0.0, output: 0.0 } },
+            { id: 25, title: "Yi 6B", provider: "01.AI", gradient: "linear-gradient(135deg, #3b82f6, #8b5cf6)", downloads: "115M+", pricing: { input: 0.0, output: 0.0 } },
         ];
 
         const movies = [
@@ -1743,13 +1830,17 @@
 
             // Determine metric text based on card type
             let metricText = '';
-            if (cardType === 'openrouter') {
-                // OpenRouter cards: show price ratio
+            if (cardType === 'openrouter' || cardType === 'coding') {
+                // OpenRouter & Coding cards: show price ratio
                 const inputPrice = item.pricing?.input || 0;
                 const outputPrice = item.pricing?.output || 0;
-                metricText = `$${inputPrice.toFixed(3)}/$${outputPrice.toFixed(3)}`;
-            } else if (cardType === 'huggingface') {
-                // Hugging Face cards: show download count
+                if (inputPrice === 0 && outputPrice === 0) {
+                    metricText = 'FREE';
+                } else {
+                    metricText = `$${inputPrice.toFixed(3)}/$${outputPrice.toFixed(3)}`;
+                }
+            } else if (cardType === 'huggingface' || cardType === 'onnx' || cardType === 'free') {
+                // HuggingFace, ONNX, Free cards: show download count
                 metricText = item.downloads || '0';
             }
 
@@ -2062,10 +2153,6 @@
             // Update tvShows if we got data
             if (modelsData && modelsData.length > 0) {
                 tvShows = modelsData;
-                
-                // Optional: Sync to Grist if using API or JSON data
-                // Uncomment the line below to enable auto-sync
-                // await syncModelsToGrist(tvShows);
             } else {
                 console.log('🔄 Using fallback static data');
             }
@@ -2078,21 +2165,31 @@
                 }
             }
             
-            // Populate carousels
-            // First row: OpenRouter (max 25, with prices)
-            populateCarousel('tv-carousel', tvShows, true, 'openrouter', 25);
+            // Populate all 5 carousels
+            // 1. OpenRouter (max 25, with prices)
+            populateCarousel('openrouter-carousel', tvShows, true, 'openrouter', 25);
             
-            // Second row: Hugging Face (max 25, with download counts)
+            // 2. Hugging Face (max 25, with download counts)
             if (huggingFaceData && huggingFaceData.length > 0) {
-                populateCarousel('movies-carousel', huggingFaceData, true, 'huggingface', 25);
-            } else {
-                // Fallback to states data
-                populateCarousel('movies-carousel', movies, true, 'other', 25);
+                populateCarousel('huggingface-carousel', huggingFaceData, true, 'huggingface', 25);
             }
             
-            // Third row: Trending (mixed, no ranks)
-            const trendingItems = [...tvShows.slice(0, 4), ...(huggingFaceData ? huggingFaceData.slice(0, 4) : movies.slice(0, 4))]
-                .sort(() => Math.random() - 0.5).slice(0, 8);
+            // 3. Coding Assistants (max 25, with prices or FREE)
+            populateCarousel('coding-carousel', codingAssistants, true, 'coding', 25);
+            
+            // 4. ONNX Models (max 25, with download counts)
+            populateCarousel('onnx-carousel', onnxModels, true, 'onnx', 25);
+            
+            // 5. Free Models (max 25, with download counts)
+            populateCarousel('free-carousel', freeModels, true, 'free', 25);
+            
+            // Trending (mixed, no ranks)
+            const trendingItems = [
+                ...tvShows.slice(0, 2),
+                ...(huggingFaceData ? huggingFaceData.slice(0, 2) : []),
+                ...codingAssistants.slice(0, 2),
+                ...freeModels.slice(0, 2)
+            ].sort(() => Math.random() - 0.5);
             populateCarousel('trending-carousel', trendingItems, false, 'openrouter', 25);
         }
 
